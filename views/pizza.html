@@ -15,6 +15,7 @@
     body {
       font-family: "Trebuchet MS", Helvetica, sans-serif;
       background: black;
+      
     }
 
     input {
@@ -26,16 +27,21 @@
       display: inline-block;
     }
 
-    h2 {
-        font-size: 2em;
+    /*
+        add larger font size to increase page speed user experience score for mobile
+    */
+    @media only screen and (max-device-width: 480px) {
+        h2, p, h3, em, h4, #footer {
+          font-size: 1.75em;
+        }
     }
-    
     .centered {
       text-align: center;
     }
 
     #pizzaSize {
       font-weight: 800;
+      font-size: 1.75em;
     }
 
     .mover {
