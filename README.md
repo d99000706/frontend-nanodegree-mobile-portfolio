@@ -1,3 +1,22 @@
+
+############## summary of changes made by Chris Howard Apr 2015 to optimize this website
+
+1.  images sizes and compression - image sizes were altered and images were compressed further to improve pagespeed score
+
+2. inlining - per pagespeed insights suggestions, several css and js files were included inline in the html to improve pagespeed score
+
+3. reducing/removing dom queries - Moved the pizza element list to be a global variable and moved the dom query 
+outside of the update for the animated pizzas
+
+4. added jquery for pizza resizing - instead of looping through each random pizza dom element and changing size, 
+jquery is used to search & change style width
+
+optimized website is hosted on github pages at:  http://d99000706.github.io/frontend-nanodegree-mobile-portfolio/
+
+pagespeed insights results can be found at: https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fd99000706.github.io%2Ffrontend-nanodegree-mobile-portfolio%2F&tab=mobile
+
+
+
 ## Website Performance Optimization portfolio project
 
 Your challenge, if you wish to accept it (and we sure hope you will), is to optimize this online portfolio for speed! In particular, optimize the critical rendering path and make this page render as quickly as possible by applying the techniques you've picked up in the [Critical Rendering Path course](https://www.udacity.com/course/ud884).
