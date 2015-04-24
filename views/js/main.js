@@ -562,6 +562,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // store a ref to this dom object to avoid searching later
     pizzaElemList[i] = elem;
     
+    
+    
   }
   updatePositions();
 });
