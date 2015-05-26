@@ -451,9 +451,15 @@ var resizePizzas = function(size) {
   // Iterates through pizza elements on the page and changes their widths
   function changePizzaSizes(size) {
     var nodeList = document.querySelectorAll(".randomPizzaContainer");
+    
+    // all the pizzas should be the same size so pull with width computation out of the loop
+    var newwidth;
+    if (nodeList.length > 0) {
+      var dx = determineDx(nodeList[0], size);
+      newwidth = (nodeList[0].offsetWidth + dx) + 'px';
+    }
+    
     for (var i = 0; i < nodeList.length; i++) {        
-      var dx = determineDx(nodeList[i], size);
-      var newwidth = (nodeList[i].offsetWidth + dx) + 'px';
       nodeList[i].style.width = newwidth;
     }
   }
@@ -512,33 +518,59 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 
 // create a global list variable to store refs to each of the movable pizza elements
 // this avoids searching the dom 
-var NumPizzas = 200;
+// there are only 8 columns of sliding pizzas and only 4 or 5 rows visible
+// so we should be able to reduce this number to about 40 or less
+var NumPizzas = 32;
 var pizzaElemList = [];
+
+// phase look up table declared as global to avoid reallocating space each update/render
+var phaseLut = new Array(5);
 
 // Moves the sliding background pizzas based on scroll position
 function updatePositions() {
+  // according to the reviewers, the User Timing API is not good enough to satisfy project requirements so let's remove calls to it
+  /*
   frame++;
   window.performance.mark("mark_start_frame");
+  */
   
   // store the document scroll top so we don't ask for it in each iteration of the loop 
-  var st = document.body.scrollTop;
+  var st = document.body.scrollTop;  
+  var stDiv1250 = st / 1250;
+
+  // due to the i%5 in the phase computation in the loop below,
+  // there are only 5 values of phase that need to be computed
+  // we can precompute these prior to the loop
+  phaseLut[0] = Math.sin((stDiv1250) + (0));
+  phaseLut[1] = Math.sin((stDiv1250) + (1));
+  phaseLut[2] = Math.sin((stDiv1250) + (2));
+  phaseLut[3] = Math.sin((stDiv1250) + (3));
+  phaseLut[4] = Math.sin((stDiv1250) + (4));
   
+  //var phase;
   for (var i = 0; i < pizzaElemList.length; i++) {
-    var phase = Math.sin((st / 1250) + (i % 5));
+
+    //console.log("i = " + i);
+    
+    //phase = Math.sin((stDiv1250) + (i % 5));
     // replace search for items in dom with global list of pizza elements
     //items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
-    pizzaElemList[i].style.left =  pizzaElemList[i].basicLeft + 100 * phase + 'px';
+    //console.log(pizzaElemList[i].basicLeft + 100 * phase);
+    pizzaElemList[i].style.left =  pizzaElemList[i].basicLeft + 100 * phaseLut[i%5] + 'px';
   }
   
 
   // User Timing API to the rescue again. Seriously, it's worth learning.
   // Super easy to create custom metrics.
+  // according to the reviewers, the User Timing API is not good enough to satisfy project requirements so let's remove calls to it
+  /*
   window.performance.mark("mark_end_frame");
   window.performance.measure("measure_frame_duration", "mark_start_frame", "mark_end_frame");
   if (frame % 10 === 0) {
     var timesToUpdatePosition = window.performance.getEntriesByName("measure_frame_duration");
-    logAverageFrame(timesToUpdatePosition);
+    //logAverageFrame(timesToUpdatePosition);
   }
+  */
 }
 
 // runs updatePositions on scroll

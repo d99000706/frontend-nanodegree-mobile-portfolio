@@ -11,6 +11,8 @@ outside of the update for the animated pizzas
 4. added jquery for pizza resizing - instead of looping through each random pizza dom element and changing size, 
 jquery is used to search & change style width
 
+5. moved some computations out of the pizza render loop to improve performance
+
 optimized website is hosted on github pages at:  http://d99000706.github.io/frontend-nanodegree-mobile-portfolio/
 
 pagespeed insights results can be found at: https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fd99000706.github.io%2Ffrontend-nanodegree-mobile-portfolio%2F&tab=mobile
